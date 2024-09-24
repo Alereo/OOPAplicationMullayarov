@@ -1,0 +1,7 @@
+﻿D:\Vs\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: промежуточный каталог (x64\Debug\) содержит файлы, которые используются совместно с другим проектом (OOPAplication.vcxproj).  Это может привести к ошибкам очистки и перестроения.
+  funcs.cpp
+  Group.cpp
+  OOPAplication.cpp
+  Student.cpp
+  Создание кода...
+  OOPAplication.vcxproj -> D:\Repo\Mullayarov_Lab3\x64\Debug\OOPAplicationMullayarov.exe
