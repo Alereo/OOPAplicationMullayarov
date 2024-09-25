@@ -21,7 +21,7 @@ int main()
             res = checkInt(temp);
         }
         catch (invalid_argument) {
-            cout << "Ошибка (не инт)\n";
+            cout << "Ошибка\n";
             continue;
         }
         switch (res) {
@@ -33,9 +33,9 @@ int main()
             break;
         case 3:
             group.printFileGroup();
-            group.deleteGroup();
             break;
         case 4:
+            group.deleteGroup();
             group.readFileGroup();
             break;
         case 5:

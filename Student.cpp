@@ -24,9 +24,10 @@ istream& operator>>(istream& in, Student_Mullayarov* s)
     in >> ws;
     getline(in, temp);
 
-    while ((temp = checkStr(temp)) == "Ошибка ввода строки") {
+    while ((temp = checkStr(temp)) == "Ошибка ввода строки" ) {
 
-        cout << temp;
+        cout << temp << endl;
+        getline(in, temp);
     }
     s->name = temp;
     //if ((temp = checkStr(temp)) != "Ошибка ввода строки") {
@@ -40,7 +41,8 @@ istream& operator>>(istream& in, Student_Mullayarov* s)
     getline(in, temp);
     while ((temp = checkStr(temp)) == "Ошибка ввода строки") {
 
-        cout << temp;
+        cout << temp << endl;
+        getline(in, temp);
     }
     s->surname = temp;
     //if ((temp = checkStr(temp)) != "Ошибка ввода строки") {
@@ -63,6 +65,7 @@ istream& operator>>(istream& in, Student_Mullayarov* s)
         catch (invalid_argument) {
             exceptionOccured = true;
             cout << "Ошибка ввода :( Не верен возраст" << endl;
+            getline(in, temp);
         }
     }
     exceptionOccured = true;
@@ -72,7 +75,7 @@ istream& operator>>(istream& in, Student_Mullayarov* s)
     while (exceptionOccured) {
         try {
             s->mark = checkDouble(temp);
-            if (s->mark < 0 && s->mark >5) {
+            if (s->mark < 0.0 || s->mark > 5.0) {
                 throw std::invalid_argument("");
             }
             exceptionOccured = false;
@@ -80,6 +83,7 @@ istream& operator>>(istream& in, Student_Mullayarov* s)
         catch (invalid_argument) {
             exceptionOccured = true;
             cout << "Не верна оценка - ошибка ввода :(" << endl;
+            getline(in, temp);
         }
     }
     return in;
