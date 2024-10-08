@@ -1,9 +1,19 @@
 #include "Group.h"
 #include <string>
 #include "funcs.h"
+
 using namespace std;
 
+BOOST_CLASS_EXPORT(Headman_Mullayarov)
+
+using boost::archive::archive_flags;
+
 Group_Mullayarov::Group_Mullayarov(){
+}
+
+Group_Mullayarov::~Group_Mullayarov()
+{
+    deleteGroup();
 }
 
 void Group_Mullayarov::printStudents() {
@@ -12,7 +22,7 @@ void Group_Mullayarov::printStudents() {
     }
     else {
         for (int i = 0; i < students.size(); i++) {
-            cout << students[i];
+            students[i]->showStudent(cout);
         }
     }
 }
@@ -22,11 +32,10 @@ void Group_Mullayarov::printFileGroup() {
     cout << "¬веди название файла" << endl;
     getline(cin, filename);
     ofstream fout;
-    fout.open(filename);
+    fout.open(filename, ios::trunc);
     if (fout.is_open()) {
-        for (int i = 0; i < students.size(); i++) {
-            fout << students[i];
-        }
+        boost::archive::text_oarchive write(fout, archive_flags::no_header);
+        write << students;
         fout.close();
     }
     else {
@@ -34,40 +43,47 @@ void Group_Mullayarov::printFileGroup() {
     }
 }
 
+
 void Group_Mullayarov::addStudents() {
-    Student_Mullayarov* student = new Student_Mullayarov();
-    cin >> student;
+    shared_ptr<Student_Mullayarov> student = make_shared<Student_Mullayarov>();
+    student->Student_Mullayarov::createStudent(cin);
+    students.push_back(student);
+}
+
+void Group_Mullayarov::addStudentsWithPosition() {
+    shared_ptr<Headman_Mullayarov> student = make_shared<Headman_Mullayarov>();
+    student->Headman_Mullayarov::createStudent(cin);
     students.push_back(student);
 }
 
 void Group_Mullayarov::deleteGroup() {
-    for (auto student : students) {
-        delete student;
-    }
     students.clear();
 }
 
 
-void Group_Mullayarov::readFileGroup() {
+
+
+void Group_Mullayarov::readFileGroup()
+{
+    deleteGroup();
     string filename;
-    cout << "¬веди название файла" << endl;
+    cout << "введи название файла" << endl;
     getline(cin, filename);
     ifstream fin;
     fin.open(filename);
     if (fin.is_open()) {
         if (fin.peek() != EOF) {
             while (fin.peek() != EOF) {
-                Student_Mullayarov* student = new Student_Mullayarov();
-                fin >> student;
-                students.push_back(student);
+                boost::archive::text_iarchive load(fin, archive_flags::no_header);
+                load >> students;
             }
         }
         else {
-            cout << "‘айл пустой" << endl;
+            cout << "файл пустой" << endl;
         }
         fin.close();
     }
     else {
-        cout << "‘айл не удалось открыть" << endl;
+        cout << "файл не удалось открыть" << endl;
     }
 }

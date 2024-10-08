@@ -29,16 +29,18 @@ int main()
             group.addStudents();
             break;
         case 2:
-            group.printStudents();
+            group.addStudentsWithPosition();
             break;
         case 3:
-            group.printFileGroup();
+            group.printStudents();
             break;
         case 4:
-            group.deleteGroup();
-            group.readFileGroup();
+            group.printFileGroup();
             break;
         case 5:
+            group.readFileGroup();
+            break;
+        case 6:
             group.deleteGroup();
             break;
         case 0:

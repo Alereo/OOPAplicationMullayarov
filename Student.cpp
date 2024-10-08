@@ -1,7 +1,8 @@
 #include "Student.h"
 #include <string>
-
 using namespace std;
+BOOST_CLASS_IMPLEMENTATION(Student_Mullayarov, boost::serialization::level_type::object_serializable)
+
 Student_Mullayarov::Student_Mullayarov()
 {
     mark = age = 0;
@@ -9,13 +10,12 @@ Student_Mullayarov::Student_Mullayarov()
     surname = " ";
 }
 
-ostream& operator<<(ostream& out, Student_Mullayarov* s)
+void Student_Mullayarov::showStudent(ostream& out)
 {
-    out << "Имя студента: " << s->name << endl << "Фамилия студента: " << s->surname << endl << "Возраст студента: " << s->age << endl << "Средняя оценка по предметам: " << s->mark << endl;
-    return out;
+    out << "Имя студента: " << name << endl << "Фамилия студента: " << surname << endl << "Возраст студента: " << age << endl << "Средняя оценка по предметам: " << mark << endl;
 }
 
-istream& operator>>(istream& in, Student_Mullayarov* s)
+void Student_Mullayarov::createStudent(istream& in)
 {
     bool exceptionOccured = true;
     string temp;
@@ -24,18 +24,13 @@ istream& operator>>(istream& in, Student_Mullayarov* s)
     in >> ws;
     getline(in, temp);
 
-    while ((temp = checkStr(temp)) == "Ошибка ввода строки" ) {
+    while ((temp = checkStr(temp)) == "Ошибка ввода строки") {
 
         cout << temp << endl;
         getline(in, temp);
     }
-    s->name = temp;
-    //if ((temp = checkStr(temp)) != "Ошибка ввода строки") {
-    //    s->name = temp;
-    //}
-    //else {
-    //    std::cout << "Не верно имя для студента - ошибка ввода :(" << endl;
-    //}
+    name = temp;
+
     cout << "Введите фамилию студента\n";
     in >> ws;
     getline(in, temp);
@@ -44,20 +39,14 @@ istream& operator>>(istream& in, Student_Mullayarov* s)
         cout << temp << endl;
         getline(in, temp);
     }
-    s->surname = temp;
-    //if ((temp = checkStr(temp)) != "Ошибка ввода строки") {
-    //    s->surname = temp;
-    //}
-    //else {
-    //    std::cout << "Не верна фамилия для студента - ошибка ввода :(" << endl;
-    //}
+    surname = temp;
     cout << "Введите возраст \n";
     in >> ws;
     getline(in, temp);
     while (exceptionOccured) {
         try {
-            s->age = checkInt(temp);
-            if (s->age < 18) {
+            age = checkInt(temp);
+            if (age < 18) {
                 throw std::invalid_argument("");
             }
             exceptionOccured = false;
@@ -74,8 +63,8 @@ istream& operator>>(istream& in, Student_Mullayarov* s)
     getline(in, temp);
     while (exceptionOccured) {
         try {
-            s->mark = checkDouble(temp);
-            if (s->mark < 0.0 || s->mark > 5.0) {
+            mark = checkDouble(temp);
+            if (mark < 0.0 || mark > 5.0) {
                 throw std::invalid_argument("");
             }
             exceptionOccured = false;
@@ -86,26 +75,132 @@ istream& operator>>(istream& in, Student_Mullayarov* s)
             getline(in, temp);
         }
     }
-    return in;
 }
 
-ofstream& operator<<(ofstream& fout, Student_Mullayarov* s)
+
+
+
+
+//ofstream& Student_Mullayarov::operator<<(ofstream& fout)
+//{
+//    fout << "Имя студента: " << name << endl << "Фамилия студента: " << surname << endl << "Возраст студента: " << age << endl << "Средняя оценка по предметам: " << mark << endl;
+//    return fout;
+//}
+
+//ifstream& Student_Mullayarov::operator>>(ifstream& fin)
+//{
+//    string line;
+//    getline(fin, line);
+//    name = line.substr(line.find_first_of(':') + 2);
+//    getline(fin, line);
+//    surname = line.substr(line.find_first_of(':') + 2);
+//    getline(fin, line);
+//    age = std::stoi(line.substr(line.find_first_of(':') + 2));
+//    getline(fin, line);
+//    mark = std::stod(line.substr(line.find_first_of(':') + 2));
+//    return fin;
+//}
+
+
+
+
+Student_Mullayarov::~Student_Mullayarov()
 {
-
-    fout << "Имя студента: " << s->name << endl << "Фамилия студента: " << s->surname << endl << "Возраст студента: " << s->age << endl << "Средняя оценка по предметам: " << s->mark << endl;
-    return fout;
 }
 
-ifstream& operator>>(ifstream& fin, Student_Mullayarov* s)
-{
-    string line;
-    getline(fin, line);
-    s->name = line.substr(line.find_first_of(':') + 2);
-    getline(fin, line);
-    s->surname = line.substr(line.find_first_of(':') + 2);
-    getline(fin, line);
-    s->age = std::stoi(line.substr(line.find_first_of(':') + 2));
-    getline(fin, line);
-    s->mark = std::stod(line.substr(line.find_first_of(':') + 2));
-    return fin;
-}
+//ostream& operator<<(ostream& out, Student_Mullayarov* s)
+//{
+//    out << "Имя студента: " << s->name << endl << "Фамилия студента: " << s->surname << endl << "Возраст студента: " << s->age << endl << "Средняя оценка по предметам: " << s->mark << endl;
+//    return out;
+//}
+
+//istream& operator>>(istream& in, Student_Mullayarov* s)
+//{
+//    bool exceptionOccured = true;
+//    string temp;
+//    string name;
+//    cout << "Введите имя студента\n";
+//    in >> ws;
+//    getline(in, temp);
+//
+//    while ((temp = checkStr(temp)) == "Ошибка ввода строки" ) {
+//
+//        cout << temp << endl;
+//        getline(in, temp);
+//    }
+//    s->name = temp;
+//    //if ((temp = checkStr(temp)) != "Ошибка ввода строки") {
+//    //    s->name = temp;
+//    //}
+//    //else {
+//    //    std::cout << "Не верно имя для студента - ошибка ввода :(" << endl;
+//    //}
+//    cout << "Введите фамилию студента\n";
+//    in >> ws;
+//    getline(in, temp);
+//    while ((temp = checkStr(temp)) == "Ошибка ввода строки") {
+//
+//        cout << temp << endl;
+//        getline(in, temp);
+//    }
+//    s->surname = temp;
+//    //if ((temp = checkStr(temp)) != "Ошибка ввода строки") {
+//    //    s->surname = temp;
+//    //}
+//    //else {
+//    //    std::cout << "Не верна фамилия для студента - ошибка ввода :(" << endl;
+//    //}
+//    cout << "Введите возраст \n";
+//    in >> ws;
+//    getline(in, temp);
+//    while (exceptionOccured) {
+//        try {
+//            s->age = checkInt(temp);
+//            if (s->age < 18) {
+//                throw std::invalid_argument("");
+//            }
+//            exceptionOccured = false;
+//        }
+//        catch (invalid_argument) {
+//            exceptionOccured = true;
+//            cout << "Ошибка ввода :( Не верен возраст" << endl;
+//            getline(in, temp);
+//        }
+//    }
+//    exceptionOccured = true;
+//    cout << "Ввeдите среднюю оценку\n";
+//    in >> ws;
+//    getline(in, temp);
+//    while (exceptionOccured) {
+//        try {
+//            s->mark = checkDouble(temp);
+//            if (s->mark < 0.0 || s->mark > 5.0) {
+//                throw std::invalid_argument("");
+//            }
+//            exceptionOccured = false;
+//        }
+//        catch (invalid_argument) {
+//            exceptionOccured = true;
+//            cout << "Не верна оценка - ошибка ввода :(" << endl;
+//            getline(in, temp);
+//        }
+//    }
+//    return in;
+//}
+
+
+
+//ifstream& operator>>(ifstream& fin, Student_Mullayarov* s)
+//{
+//    string line;
+//    getline(fin, line);
+//    s->name = line.substr(line.find_first_of(':') + 2);
+//    getline(fin, line);
+//    s->surname = line.substr(line.find_first_of(':') + 2);
+//    getline(fin, line);
+//    s->age = std::stoi(line.substr(line.find_first_of(':') + 2));
+//    getline(fin, line);
+//    s->mark = std::stod(line.substr(line.find_first_of(':') + 2));
+//    return fin;
+//}
+
